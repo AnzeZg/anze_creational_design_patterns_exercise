@@ -57,16 +57,20 @@ class CampaignBuilder:
       return self
 
     def build(self) -> Campaign:
-      if self.name is None:
-        raise ValueError("Name is required")
-      if self.channel is None:
-        raise ValueError("Channel is required")
-      if self.daily_budget is None:
-        raise ValueError("Daily budget is required")
-      if self.start_date is None:
-        raise ValueError("Start date is required")
-      if self.creatives is None:
-        raise ValueError("Creatives are required")
-      if self.tracking is None:
-        raise ValueError("Tracking is required")
-      return Campaign(self.name, self.channel, self.daily_budget, self.start_date, self.end_date, self.target_audience, self.creatives, self.tracking)
+        if self.name is None:
+            raise ValueError("Name is required")
+        if self.channel is None:
+            raise ValueError("Channel is required")
+        if self.daily_budget is None:
+            raise ValueError("Daily budget is required")
+        if self.daily_budget is not None and self.daily_budget < 0:
+            raise ValueError("Budget must be non-negative")
+        if self.start_date is None:
+            raise ValueError("Start date is required")
+        if self.end_date is not None and self.start_date > self.end_date:
+            raise ValueError("Start date must be before end date")
+        if not self.creatives:
+            raise ValueError("At least one creative is required")
+        if self.tracking is None:
+            raise ValueError("Tracking is required")
+        return Campaign(self.name, self.channel, self.daily_budget, self.start_date, self.end_date, self.target_audience, self.creatives, self.tracking)

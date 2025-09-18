@@ -20,6 +20,7 @@ def test_clients_allocate_from_same_global_budget():
         .with_budget(200.0)
         .with_dates(date(2025, 9, 20), date(2025, 9, 25))
         .add_creative("H1", "u1")
+        .with_tracking(utm_source="google", utm_campaign="g_alpha")
         .build()
     )
     campaign_facebook = (
@@ -29,6 +30,7 @@ def test_clients_allocate_from_same_global_budget():
         .with_budget(250.0)
         .with_dates(date(2025, 9, 26), date(2025, 10, 1))
         .add_creative("H2", "u2")
+        .with_tracking(utm_source="facebook", utm_campaign="f_beta")
         .build()
     )
 
@@ -52,6 +54,7 @@ def test_client_creation_fails_when_budget_insufficient():
         .with_budget(200.0)
         .with_dates(date(2025, 9, 20), date(2025, 9, 21))
         .add_creative("H", "u")
+        .with_tracking(utm_source="google", utm_campaign="too_big")
         .build()
     )
     client = ChannelClientFactory.create(campaign_too_big.channel)
